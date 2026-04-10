@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar class="toolbar-custom">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Lista de Clientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding tela-lista">
+
+  <ion-card class="card-custom">
+    <ion-card-header>
+      <ion-card-title>Cadastros Realizados</ion-card-title>
+    </ion-card-header>
+
+    <ion-list *ngIf="cadastroService.listaCadastros().length > 0; else listaVazia">
+
+      <ion-item 
+        *ngFor="let item of cadastroService.listaCadastros(); let i = index"
+        class="item-custom"
+        lines="none">
+
+        <ion-label>
+          <h2 class="nome">{{ item.nome }}</h2>
+
+          <p class="tipo">
+            {{ item.tipo == 'F' ? 'Fornecedor' : 'Cliente' }}
+          </p>
+
+          <p class="endereco">{{ item.endereco }}</p>
+        </ion-label>
+
+        <ion-button 
+          fill="clear" 
+          class="btn-excluir"
+          slot="end" 
+          (click)="excluir(i)">
+          Excluir
+        </ion-button>
+
+      </ion-item>
+
+    </ion-list>
+
+    <ng-template #listaVazia>
+      <p class="ion-padding ion-text-center vazio">
+        Nenhum cadastro encontrado!
+      </p>
+    </ng-template>
+
+  </ion-card>
+
+</ion-content>

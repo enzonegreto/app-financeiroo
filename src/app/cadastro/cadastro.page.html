@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar class="toolbar-custom">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cadastrar Cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding tela-cadastro">
+
+  <ion-card class="card-custom">
+    <ion-card-header>
+      <ion-card-title>Novo Cadastro</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-item class="item-custom" lines="none">
+        <ion-label position="stacked">Nome</ion-label>
+        <ion-input [(ngModel)]="entidade.nome" placeholder="Digite o nome completo"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-custom" lines="none">
+        <ion-label position="stacked">Tipo</ion-label>
+        <ion-input [(ngModel)]="entidade.tipo" placeholder="C = Cliente | F = Fornecedor"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-custom" lines="none">
+        <ion-label position="stacked">Endereço</ion-label>
+        <ion-input [(ngModel)]="entidade.endereco" placeholder="Digite o endereço completo"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="btn-salvar ion-margin-top">
+        Salvar
+      </ion-button>
+
+      <ion-button expand="block" fill="outline" class="btn-limpar">
+        Limpar Campos
+      </ion-button>
+
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        class="btn-lista ion-margin-top" 
+        routerLink="/lista-cadastros">
+        Ver Cadastros ({{ cadastroService.listaCadastros().length }})
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

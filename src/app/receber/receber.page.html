@@ -1,0 +1,156 @@
+<ion-header>
+  <ion-toolbar class="toolbar-custom">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Contas a Receber</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding tela-receber">
+
+  <!-- Cadastro -->
+  <ion-card class="card-custom">
+    <ion-card-header>
+      <ion-card-title>Nova Receita</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ng-container *ngIf="clientesCadastrados().length > 0">
+
+        <ion-searchbar
+          [(ngModel)]="termoBuscaCliente"
+          debounce="200"
+          placeholder="Buscar cliente..."
+          animated="true"
+          class="search-custom">
+        </ion-searchbar>
+
+        <ion-list *ngIf="clientesFiltrados().length > 0" class="ion-no-padding">
+
+          <ion-item 
+            button 
+            detail="true" 
+            class="item-custom"
+            lines="none"
+            *ngFor="let c of clientesFiltrados()" 
+            (click)="selecionarCliente(c)">
+
+            <ion-label>
+              <h3 class="nome">{{ c.nome }}</h3>
+              <p class="endereco">{{ c.endereco }}</p>
+            </ion-label>
+
+          </ion-item>
+
+        </ion-list>
+
+        <p 
+          *ngIf="termoBuscaCliente.trim() && clientesFiltrados().length === 0" 
+          class="mensagem">
+          Nenhum cliente encontrado!
+        </p>
+
+        <ion-item *ngIf="conta.cliente" class="item-custom destaque" lines="none">
+          <ion-label>
+            <small>Cliente selecionado</small>
+            <h3 class="nome">{{ conta.cliente }}</h3>
+          </ion-label>
+
+          <ion-button 
+            fill="clear" 
+            slot="end" 
+            size="small" 
+            class="btn-limpar-cliente"
+            (click)="limparClienteSelecionado()">
+            Limpar
+          </ion-button>
+
+        </ion-item>
+
+      </ng-container>
+
+      <ion-item *ngIf="clientesCadastrados().length === 0" class="item-custom" lines="none">
+        <ion-label position="stacked">Cliente</ion-label>
+        <ion-input [(ngModel)]="conta.cliente" placeholder="Digite o nome do cliente"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-custom" lines="none">
+        <ion-label position="stacked">Data de Vencimento</ion-label>
+        <ion-input [(ngModel)]="conta.vencimento" type="date"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-custom" lines="none">
+        <ion-label position="stacked">Data de Recebimento</ion-label>
+        <ion-input [(ngModel)]="conta.pagamento" type="date"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-custom" lines="none">
+        <ion-label position="stacked">Valor (R$)</ion-label>
+        <ion-input [(ngModel)]="conta.valor" type="number" placeholder="0.00"></ion-input>
+      </ion-item>
+
+      <ion-button 
+        expand="block" 
+        class="btn-salvar ion-margin-top" 
+        (click)="cadastrar()">
+        Salvar Receita
+      </ion-button>
+
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        class="btn-limpar" 
+        (click)="limparFormulario()">
+        Limpar Campos
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Lista -->
+  <ion-card class="card-custom">
+    <ion-card-header>
+      <ion-card-title>Receitas Pendentes</ion-card-title>
+    </ion-card-header>
+
+    <ion-list *ngIf="receberService.contasReceber().length > 0; else listaVazia">
+
+      <ion-item 
+        *ngFor="let item of receberService.contasReceber(); let i = index"
+        class="item-custom"
+        lines="none">
+
+        <ion-label>
+          <h2 class="nome">{{ item.cliente }}</h2>
+
+          <p class="info">Vencimento: {{ item.vencimento }}</p>
+          <p class="info">Recebimento: {{ item.pagamento }}</p>
+
+          <p class="valor">
+            R$ {{ item.valor }}
+          </p>
+        </ion-label>
+
+        <ion-button 
+          fill="clear" 
+          class="btn-excluir"
+          slot="end" 
+          (click)="excluir(i)">
+          Excluir
+        </ion-button>
+
+      </ion-item>
+
+    </ion-list>
+
+    <ng-template #listaVazia>
+      <ion-card-content class="vazio">
+        Nenhuma receita cadastrada
+      </ion-card-content>
+    </ng-template>
+
+  </ion-card>
+
+</ion-content>

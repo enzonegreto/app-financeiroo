@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar class="toolbar-custom">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Contas a Pagar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding tela-pagar">
+
+  <!-- Cadastro -->
+  <ion-card class="card-custom">
+    <ion-card-header>
+      <ion-card-title>Nova Despesa</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-item class="item-custom" lines="none">
+        <ion-label position="stacked">Fornecedor</ion-label>
+        <ion-input [(ngModel)]="conta.fornecedor" placeholder="Digite o fornecedor"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-custom" lines="none">
+        <ion-label position="stacked">Data de Vencimento</ion-label>
+        <ion-input [(ngModel)]="conta.vencimento" type="date"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-custom" lines="none">
+        <ion-label position="stacked">Data de Pagamento</ion-label>
+        <ion-input [(ngModel)]="conta.pagamento" type="date"></ion-input>
+      </ion-item>
+
+      <ion-item class="item-custom" lines="none">
+        <ion-label position="stacked">Valor (R$)</ion-label>
+        <ion-input [(ngModel)]="conta.valor" type="number" placeholder="0.00"></ion-input>
+      </ion-item>
+
+      <ion-button 
+        expand="block" 
+        class="btn-salvar ion-margin-top" 
+        (click)="cadastrar()">
+        Salvar Despesa
+      </ion-button>
+
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        class="btn-limpar" 
+        (click)="limparFormulario()">
+        Limpar Campos
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Lista -->
+  <ion-card class="card-custom">
+    <ion-card-header>
+      <ion-card-title>Despesas Pendentes</ion-card-title>
+    </ion-card-header>
+
+    <ion-list *ngIf="contasPagar.length > 0; else listaVazia">
+
+      <ion-item 
+        *ngFor="let item of contasPagar; let i = index"
+        class="item-custom"
+        lines="none">
+
+        <ion-label>
+          <h2 class="nome">{{ item.fornecedor }}</h2>
+
+          <p class="info">Vencimento: {{ item.vencimento }}</p>
+          <p class="info">Pagamento: {{ item.pagamento }}</p>
+
+          <p class="valor">
+            R$ {{ item.valor }}
+          </p>
+        </ion-label>
+
+        <ion-button 
+          fill="clear" 
+          class="btn-excluir"
+          slot="end" 
+          (click)="excluir(i)">
+          Excluir
+        </ion-button>
+
+      </ion-item>
+
+    </ion-list>
+
+    <ng-template #listaVazia>
+      <ion-card-content class="vazio">
+        Nenhuma despesa cadastrada 💸
+      </ion-card-content>
+    </ng-template>
+
+  </ion-card>
+
+</ion-content>
